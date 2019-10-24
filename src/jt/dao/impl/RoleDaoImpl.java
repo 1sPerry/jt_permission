@@ -25,15 +25,26 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public boolean delRole(int roleId) {
-        return false;
+    public int delRole(int roleId) {
+        Connection conn = DBUtil.getConnection();
+        String sql = "update sys_role SET d_flag = 0 where id=" + roleId;
+        PreparedStatement pst = null;
+        int rows = 0;
+        try {
+            pst = conn.prepareStatement(sql);
+            rows = pst.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rows;
     }
 
     @Override
     public List<Role> listRoles() {
         Connection conn = DBUtil.getConnection();
         List<Role> roles = new ArrayList<>();
-        String sql = "select  * from sys_role";
+        String sql = "select  * from sys_role where d_flag=1";
         PreparedStatement pst = null;
         ResultSet resultSet = null;
         try {
@@ -53,8 +64,19 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public boolean saveRole(Role role) {
-        return false;
+    public int saveRole(Role role) {
+        Connection conn = DBUtil.getConnection();
+        String sql = "insert into sys_role (roleName) values ('" + role.getRoleName() + "')";
+        PreparedStatement pst = null;
+        int rows = 0;
+        try {
+            pst = conn.prepareStatement(sql);
+            rows = pst.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rows;
     }
 
     @Override

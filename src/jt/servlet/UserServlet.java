@@ -1,7 +1,9 @@
 package jt.servlet;
 
+import jt.dao.impl.AuthDaoImpl;
 import jt.dao.impl.RoleDaoImpl;
 import jt.dao.impl.UserDaoImpl;
+import jt.entity.Auth;
 import jt.entity.Role;
 import jt.entity.User;
 import jt.util.DBUtil;
@@ -21,9 +23,13 @@ import java.util.List;
 @WebServlet("/jt/userServlet")
 public class UserServlet extends HttpServlet {
     private String empName;
-    private static String ASSIGNROLE="/assignRole.jsp";
+
     private static String LOGIN="/login.jsp";
     private static String USER_LIST="/userList.jsp";
+    private static String ROLE_LIST="/roleList.jsp";
+    private static String ASSIGNROLE="/assignRole.jsp";
+    private static String ASSIGNAUTH="/assignAuth.jsp";
+    private static String AUTH_LIST="/authList.jsp";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        super.doGet(req, resp);
@@ -41,9 +47,24 @@ public class UserServlet extends HttpServlet {
            addUser(request, response);
         } else if (action.equals("assignRole")) {
             assignRole(request, response);
-        } else if (action.equals("assign")) {
-//            assign(request, response);
-        }
+        } else if (action.equals("roleList")) {
+           roleList(request, response);
+       }else if (action.equals("delRole")) {
+           delRole(request, response);
+       }else if (action.equals("addRole")) {
+           addRole(request, response);
+       }else if (action.equals("assignAuth")) {
+           assignAuth(request, response);
+       }else if (action.equals("authList")) {
+           authList(request, response);
+       }else if (action.equals("addAuth")) {
+           addAuth(request, response);
+       }else if (action.equals("delAuth")) {
+           delAuth(request, response);
+       }
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html");
     }
 
     /**
@@ -117,5 +138,123 @@ public class UserServlet extends HttpServlet {
         roles = roleDao.listRoles();
         req.setAttribute("roles", roles);//这里遍历list 跟上面 roleInfo比  就下拉框 遍历 然后选中 zhe ji  ge
         req.getRequestDispatcher(ASSIGNROLE).forward(req, resp);
+    }
+    /**
+     * 从数据库中查询所有的角色
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void roleList(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        RoleDaoImpl roleDao = new RoleDaoImpl();
+        List<Role>  roleList =roleDao.listRoles();
+        req.setAttribute("roleList", roleList);
+        req.getRequestDispatcher(ROLE_LIST).forward(req,resp);
+    }
+    /**
+     * 注销角色
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void delRole(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        Integer roleId = Integer.parseInt(req.getParameter("roleId"));
+       RoleDaoImpl roleDao = new RoleDaoImpl();
+        int rows = roleDao.delRole(roleId);
+        //注销用户后，请求用户列表接口
+        roleList(req,resp);
+    }
+    /**
+     * 添加角色
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void addRole(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String roleName = req.getParameter("roleName");
+
+        Role role = new Role();
+        role.setRoleName(roleName);
+       RoleDaoImpl roleDao = new RoleDaoImpl();
+        int rows= roleDao.saveRole(role);
+        //注销用户后，请求用户列表接口
+        roleList(req,resp);
+    }
+    /**
+     * 给用户分配角色
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void assignAuth(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+//        Integer userId = Integer.parseInt(req.getParameter("userId"));
+//        String empName = req.getParameter("empName");
+//        UserDaoImpl userDao=new UserDaoImpl();
+//        Role role = userDao.selectRoleById(userId);
+//        //注销用户后，请求用户列表接口
+//        req.setAttribute("empName", empName);
+//        req.setAttribute("roleInfo", role);
+//        List<Role> roles = new ArrayList<>();
+//        RoleDaoImpl roleDao = new RoleDaoImpl();
+//        roles = roleDao.listRoles();
+//        req.setAttribute("roles", roles);//这里遍历list 跟上面 roleInfo比  就下拉框 遍历 然后选中 zhe ji  ge
+        req.getRequestDispatcher(ASSIGNAUTH).forward(req, resp);
+    }
+
+    /**
+     * 从数据库中查询所有的权限
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void authList(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        AuthDaoImpl authDao=new AuthDaoImpl();
+        List<Auth> authList =authDao.listAuths();
+        req.setAttribute("authList", authList);
+        req.getRequestDispatcher(AUTH_LIST).forward(req,resp);
+    }
+    /**
+     * 添加权限
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void addAuth(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String authName = req.getParameter("authName");
+        String url = req.getParameter("url");
+        String actionName = req.getParameter("actionName");
+        Auth auth = new Auth();
+        auth.setAuthName(authName);
+        auth.setUrl(url);
+        auth.setActionName(actionName);
+        AuthDaoImpl authDao = new AuthDaoImpl();
+        int rows= authDao.saveAuth(auth);
+        authList(req,resp);
+    }
+    /**
+     * 注销权限
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void delAuth(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        Integer authId = Integer.parseInt(req.getParameter("authId"));
+        AuthDaoImpl authDao = new AuthDaoImpl();
+        int rows = authDao.delAuth(authId);
+       authList(req,resp);
     }
 }

@@ -22,8 +22,8 @@
     <span>欢迎:<font color="red">${sessionScope.user.empName}</font> 登陸!
         <tr>
             <a align="center" href="/jt/userServlet?action=userList"> 用户管理 </a>
-             <a align="center" href="/jt/userServlet?action=list"> 角色管理 </a>
-             <a align="center" href="/jt/userServlet?action=list"> 权限管理 </a>
+             <a align="center" href="/jt/userServlet?action=roleList"> 角色管理 </a>
+             <a align="center" href="/jt/userServlet?action=authList"> 权限管理 </a>
          </tr>
 
 <%--        --%>
