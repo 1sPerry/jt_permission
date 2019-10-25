@@ -13,14 +13,14 @@
 <body>
 <h2 align="center"><font color=red>分配权限</font></h2>
 <form name="form2" method="post" action="/jt/userServlet?action=assignAuthAdd">
+    <input type="text" name="roleId"  value="${roleId}" >
     <table align="center">
         <tr>
             <td><label>权限名称：</label></td>
  <td>${empName}</td>
-
             <td>
                 <c:forEach var="auth" items="${authListAll}">
-                    <input type="checkbox" name="authInfo" id="" value="${auth.id }"
+                    <input type="checkbox" name="authIds" id="" value="${auth.id }"
 
                             <c:forEach items="${authList }" var="authInfo">
                                 <c:if test="${auth.id==authInfo.id }">

@@ -100,4 +100,36 @@ public class AuthDaoImpl implements AuthDao {
         }
         return auths;
     }
+
+    @Override
+    public int saveRoleAuth(int roleId, int authId) {
+        Connection conn = DBUtil.getConnection();
+        String sql = "insert into sys_role_auth (roleId,authId) values (" + roleId + "," +authId + ")";
+        PreparedStatement pst = null;
+        int rows = 0;
+        try {
+            pst = conn.prepareStatement(sql);
+            rows = pst.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rows;
+    }
+
+    @Override
+    public int delAuthByRoleId(int roleId) {
+        Connection conn = DBUtil.getConnection();
+        String sql = "delete from sys_role_auth  where roleId=" + roleId;
+        PreparedStatement pst = null;
+        int rows = 0;
+        try {
+            pst = conn.prepareStatement(sql);
+            rows = pst.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rows;
+    }
 }

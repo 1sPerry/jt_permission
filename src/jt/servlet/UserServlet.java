@@ -248,6 +248,7 @@ public class UserServlet extends HttpServlet {
         AuthDaoImpl authDao = new AuthDaoImpl();
         List<Auth> authList = authDao.findAuthListByRoleId(roleId);
         List<Auth> authListAll = authDao.listAuths();
+        req.setAttribute("roleId", roleId);
         req.setAttribute("authList", authList);
         req.setAttribute("authListAll", authListAll);
         req.getRequestDispatcher(ASSIGNAUTH).forward(req, resp);
@@ -300,12 +301,16 @@ public class UserServlet extends HttpServlet {
      */
     public void assignAuthAdd(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        /*
-        取到所有勾选复选框的ID然后更新或者保存权限角色关联表
-         */
-        String authName = req.getParameter("auths");
-
-        authList(req, resp);
+        String[] authIds = req.getParameterValues("authIds");
+        int roleId = Integer.parseInt(req.getParameter("roleId"));
+        AuthDaoImpl authDao = new AuthDaoImpl();
+        authDao.delAuthByRoleId(roleId);
+        //先删除角色权限表中当前角色关联权限，再进行新增
+        for(int i=0;i<authIds.length;i++){
+            int authId= Integer.parseInt(authIds[i]);
+            authDao.saveRoleAuth(roleId,authId);
+        }
+        roleList(req, resp);
     }
 
     /**

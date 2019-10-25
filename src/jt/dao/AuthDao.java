@@ -15,4 +15,19 @@ public interface AuthDao {
      * 根据roleId获取所有权限
      */
     List<Auth> findAuthListByRoleId(int roleId);
+
+    /**
+     * 保存 角色权限关联表
+     * @param roleId
+     * @param authId
+     * @return
+     */
+    int saveRoleAuth(int roleId,int authId);
+
+    /**
+     * 根据RoleId 删除权限
+     * @param roleId
+     * @return
+     */
+    int delAuthByRoleId(int roleId);
 }
