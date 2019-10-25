@@ -81,7 +81,7 @@ public class AuthDaoImpl implements AuthDao {
         List<Auth> auths = new ArrayList<>();
         String sql = "select  ra.roleId,ra.authId,a.actionName,a.authName from sys_role_auth ra " +
                 " LEFT JOIN sys_auth a ON a.id =ra.authId" +
-                " where a.d_flag =1 and  ra.roleId="+roleId;
+                " where a.d_flag =1 and  ra.roleId=" + roleId;
         PreparedStatement pst = null;
         ResultSet resultSet = null;
         try {
@@ -104,7 +104,7 @@ public class AuthDaoImpl implements AuthDao {
     @Override
     public int saveRoleAuth(int roleId, int authId) {
         Connection conn = DBUtil.getConnection();
-        String sql = "insert into sys_role_auth (roleId,authId) values (" + roleId + "," +authId + ")";
+        String sql = "insert into sys_role_auth (roleId,authId) values (" + roleId + "," + authId + ")";
         PreparedStatement pst = null;
         int rows = 0;
         try {

@@ -1,4 +1,5 @@
 package jt.util;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -8,19 +9,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/**
+ * - 数据库连接池
+ *
+ * @author wangxiaopan
+ * @date 2019/10/23 17:35
+ */
 public class DBUtil {
     // 加载数据库驱动  com.mysql.jdbc.Driver
-    private static String driverClass ;
+    private static String driverClass;
     // 获取mysql连接地址，此处user为数据库名称
-    private static String url ;
+    private static String url;
     // 数据用户名
-    private static String username ;
+    private static String username;
     // 数据库密码
-    private static String password ;
+    private static String password;
     // 获取一个数据的连接
     private static Connection conn = null;
+
     // 静态代码块
-    public static Connection getConnection(){
+    public static Connection getConnection() {
         try {
             InputStream in = DBUtil.class.getClassLoader().getResourceAsStream("properties/jdbccfg.properties");
             Properties props = new Properties();
@@ -37,26 +45,23 @@ public class DBUtil {
         try {
             Class.forName(driverClass);
             //getConnection()方法，连接MySQL数据库！
-            conn=DriverManager.getConnection(url,username,password);
-            if(!conn.isClosed())
+            conn = DriverManager.getConnection(url, username, password);
+            if (!conn.isClosed())
                 System.out.println("数据库连接成功！");
-        }  catch(ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             //数据库驱动类异常处理
             System.out.println("数据库驱动加载失败！");
             e.printStackTrace();
-        }
-        catch(SQLException e1){
+        } catch (SQLException e1) {
             //数据库连接失败异常处理
             e1.printStackTrace();
-        }
-        catch(Exception e2){
+        } catch (Exception e2) {
             e2.printStackTrace();
-        }
-        finally{
+        } finally {
             System.out.println("-------------------------------");
             System.out.println("数据库数据获取成功！");
         }
-            return conn;
+        return conn;
     }
 
     /**
@@ -67,10 +72,10 @@ public class DBUtil {
     public static void close(
             Connection con, Statement smt) {
         try {
-            if(smt != null) {
+            if (smt != null) {
                 smt.close();
             }
-            if(con != null) {
+            if (con != null) {
                 con.close();
             }
         } catch (SQLException e) {
@@ -79,15 +84,15 @@ public class DBUtil {
         }
     }
 
-    public static void close(Connection con,Statement smt,ResultSet rs) {
+    public static void close(Connection con, Statement smt, ResultSet rs) {
         try {
-            if(rs != null) {
+            if (rs != null) {
                 rs.close();
             }
-            if(smt != null) {
+            if (smt != null) {
                 smt.close();
             }
-            if(con != null) {
+            if (con != null) {
                 con.close();
             }
         } catch (SQLException e) {
@@ -96,7 +101,7 @@ public class DBUtil {
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Connection con = DBUtil.getConnection();
         //System.out.println(con.getClass());
         DBUtil.close(con, null);

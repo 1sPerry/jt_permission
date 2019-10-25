@@ -4,7 +4,6 @@ import jt.dao.RoleDao;
 import jt.entity.Auth;
 import jt.entity.Role;
 import jt.util.DBUtil;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

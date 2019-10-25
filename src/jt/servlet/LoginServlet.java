@@ -2,7 +2,7 @@ package jt.servlet;
 
 import jt.dao.impl.UserDaoImpl;
 import jt.entity.User;
-import jt.util.DBUtil;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,15 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.*;
 import java.util.List;
 
 @WebServlet("/jt/loginServlet")
 public class LoginServlet extends HttpServlet {
     private String empName;
-    private static String SUCCESS="/top.jsp";
-    private static String LOGIN="/login.jsp";
+    private static String SUCCESS = "/top.jsp";
+    private static String LOGIN = "/login.jsp";
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        super.doGet(req, resp);
@@ -38,19 +37,26 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    //----------进行登录的操作--------------------------------------
+    /**
+     * 进行登录的操作
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     public void login(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String empName = req.getParameter("empName");
         String password = req.getParameter("password");
         UserDaoImpl userDao = new UserDaoImpl();
-        User userInfo = userDao.loginUser(empName,password);
-        boolean isLogin =false;
-        List<User> list=userDao.listUsers();
-            for (int i = 0; i < list.size(); i++) {
-            User u=(User)list.get(i);
-            if(u.getEmpName().equals(userInfo.getEmpName())&& u.getPassword().equals(userInfo.getPassword())){
-                isLogin =true;
+        User userInfo = userDao.loginUser(empName, password);
+        boolean isLogin = false;
+        List<User> list = userDao.listUsers();
+        for (int i = 0; i < list.size(); i++) {
+            User u = (User) list.get(i);
+            if (u.getEmpName().equals(userInfo.getEmpName()) && u.getPassword().equals(userInfo.getPassword())) {
+                isLogin = true;
             }
         }
         if (isLogin) {// 如果不为空，说明登录成功
@@ -62,7 +68,15 @@ public class LoginServlet extends HttpServlet {
             req.getRequestDispatcher(LOGIN).forward(req, resp);
         }
     }
-    //---------注销模块，退出后转到login.jsp--------------------------------
+
+    /**
+     * 注销模块，退出后转到login.jsp
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     public void logout(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         HttpSession session = req.getSession(false);

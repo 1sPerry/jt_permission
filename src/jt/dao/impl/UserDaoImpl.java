@@ -47,7 +47,7 @@ public class UserDaoImpl implements UserDao {
     public User loginUser(String username, String password) {
 
         Connection conn = DBUtil.getConnection();
-        String sql="select id,empName,password,position from sys_user where empName='"+username+"' and  password='"+password+"' and d_flag=1";
+        String sql = "select id,empName,password,position from sys_user where empName='" + username + "' and  password='" + password + "' and d_flag=1";
         PreparedStatement pst = null;
         ResultSet resultSet = null;
         User user = new User();
@@ -167,7 +167,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public int addAssignRoleForUser(User user) {
         Connection conn = DBUtil.getConnection();
-        String sql ="insert into sys_user_role (userId,roleId) values ('" + user.getId() + "','" + user.getRoleId() + "')";
+        String sql = "insert into sys_user_role (userId,roleId) values ('" + user.getId() + "','" + user.getRoleId() + "')";
         PreparedStatement pst = null;
         int rows = 0;
         try {
@@ -179,10 +179,11 @@ public class UserDaoImpl implements UserDao {
         }
         return rows;
     }
+
     @Override
     public int updateAssignRoleForUser(User user) {
         Connection conn = DBUtil.getConnection();
-    String sql= "update sys_user_role  set roleId=" + user.getRoleId() + " where userId=" + user.getId() ;
+        String sql = "update sys_user_role  set roleId=" + user.getRoleId() + " where userId=" + user.getId();
         PreparedStatement pst = null;
         int rows = 0;
         try {
@@ -256,18 +257,19 @@ public class UserDaoImpl implements UserDao {
         }
         return role;
     }
+
     @Override
     public int selectUserById(int id) {
         Connection conn = DBUtil.getConnection();
         String sql = "SELECT * FROM sys_user_role  WHERE userId =" + id;
         PreparedStatement pst = null;
         ResultSet resultSet = null;
-        int rows=0;
+        int rows = 0;
         try {
             pst = conn.prepareStatement(sql);
             resultSet = pst.executeQuery();
             if (!resultSet.next()) {
-                rows =1;
+                rows = 1;
             }
         } catch (SQLException e) {
             e.printStackTrace();

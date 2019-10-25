@@ -1,17 +1,12 @@
 package jt.filter;
 
-import jt.cache.MyCacheManager;
-import jt.dao.impl.RoleDaoImpl;
 import jt.dao.impl.UserDaoImpl;
 import jt.entity.Auth;
-import jt.entity.Role;
 import jt.entity.User;
-
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;

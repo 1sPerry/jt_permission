@@ -6,8 +6,18 @@ import java.util.List;
 
 public interface ModuleDao {
 
-    //--------获取单个模块--------------------
-     Module findByID(int moduleId) ;
-    //--------获取所有模块----------------
-     List<Module> listModules() ;
+    /**
+     * 获取单个模块
+     *
+     * @param moduleId
+     * @return
+     */
+    Module findByID(int moduleId);
+
+    /**
+     * 获取所有模块
+     *
+     * @return
+     */
+    List<Module> listModules();
 }

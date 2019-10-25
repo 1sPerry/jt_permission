@@ -6,24 +6,18 @@ import jt.dao.impl.UserDaoImpl;
 import jt.entity.Auth;
 import jt.entity.Role;
 import jt.entity.User;
-import jt.util.DBUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/jt/userServlet")
 public class UserServlet extends HttpServlet {
-    private String empName;
-
     private static String LOGIN = "/login.jsp";
     private static String USER_LIST = "/userList.jsp";
     private static String ROLE_LIST = "/roleList.jsp";
@@ -64,7 +58,7 @@ public class UserServlet extends HttpServlet {
             delAuth(request, response);
         } else if (action.equals("assignRoleAdd")) {
             assignRoleAdd(request, response);
-        }else if (action.equals("assignAuthAdd")){
+        } else if (action.equals("assignAuthAdd")) {
             assignAuthAdd(request, response);
         }
         request.setCharacterEncoding("UTF-8");
@@ -291,6 +285,7 @@ public class UserServlet extends HttpServlet {
         int rows = authDao.saveAuth(auth);
         authList(req, resp);
     }
+
     /**
      * 添加权限确认
      *
@@ -306,9 +301,9 @@ public class UserServlet extends HttpServlet {
         AuthDaoImpl authDao = new AuthDaoImpl();
         authDao.delAuthByRoleId(roleId);
         //先删除角色权限表中当前角色关联权限，再进行新增
-        for(int i=0;i<authIds.length;i++){
-            int authId= Integer.parseInt(authIds[i]);
-            authDao.saveRoleAuth(roleId,authId);
+        for (int i = 0; i < authIds.length; i++) {
+            int authId = Integer.parseInt(authIds[i]);
+            authDao.saveRoleAuth(roleId, authId);
         }
         roleList(req, resp);
     }

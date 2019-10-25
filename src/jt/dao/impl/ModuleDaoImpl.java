@@ -25,17 +25,17 @@ public class ModuleDaoImpl implements ModuleDao {
 
     @Override
     public List<Module> listModules() {
-        Connection conn= DBUtil.getConnection();
+        Connection conn = DBUtil.getConnection();
         List<Module> list = new ArrayList<Module>();
         String sql = "select * from sys_module order by id desc";
-        PreparedStatement pst= null;
+        PreparedStatement pst = null;
         ResultSet resultSet = null;
         int row = 0;
         try {
             pst = conn.prepareStatement(sql);
             resultSet = pst.executeQuery();
             while (resultSet.next()) {
-                Module module=new Module();
+                Module module = new Module();
                 module.setId(resultSet.getInt("id"));
                 module.setModuleName(resultSet.getString("moduleName"));
                 list.add(module);
@@ -44,6 +44,6 @@ public class ModuleDaoImpl implements ModuleDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return  list;
+        return list;
     }
 }
