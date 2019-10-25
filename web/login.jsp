@@ -15,6 +15,7 @@
 </head>
 <body >
 <h2 align="center"><font color=red>用户登录页面</font></h2>
+<span><font color="red">${msg}</font>
 <form action="/jt/loginServlet?action=login" method="post">
   <table align="center" border="1">
     <tr>

@@ -74,4 +74,30 @@ public class AuthDaoImpl implements AuthDao {
         }
         return rows;
     }
+
+    @Override
+    public List<Auth> findAuthListByRoleId(int roleId) {
+        Connection conn = DBUtil.getConnection();
+        List<Auth> auths = new ArrayList<>();
+        String sql = "select  ra.roleId,ra.authId,a.actionName,a.authName from sys_role_auth ra " +
+                " LEFT JOIN sys_auth a ON a.id =ra.authId" +
+                " where a.d_flag =1 and  ra.roleId="+roleId;
+        PreparedStatement pst = null;
+        ResultSet resultSet = null;
+        try {
+            pst = conn.prepareStatement(sql);
+            resultSet = pst.executeQuery();
+            while (resultSet.next()) {
+                Auth auth = new Auth();
+                auth.setId(resultSet.getInt(2));
+                auth.setActionName(resultSet.getString(3));
+                auth.setAuthName(resultSet.getString(4));
+                auths.add(auth);
+            }
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return auths;
+    }
 }

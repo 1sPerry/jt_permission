@@ -45,16 +45,19 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User loginUser(String username, String password) {
-        User user = new User();
+
         Connection conn = DBUtil.getConnection();
-        String sql = "select * from sys_user where username='+username +' and password='+password +' where d_flag=1";
+        String sql="select id,empName,password,position from sys_user where empName='"+username+"' and  password='"+password+"' and d_flag=1";
         PreparedStatement pst = null;
         ResultSet resultSet = null;
+        User user = new User();
         try {
             pst = conn.prepareStatement(sql);
             resultSet = pst.executeQuery();
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 user.setId(resultSet.getInt(1));
+                user.setEmpName(resultSet.getString(2));
+                user.setPassword(resultSet.getString(3));
             }
         } catch (SQLException e) {
             e.printStackTrace();

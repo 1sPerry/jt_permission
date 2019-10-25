@@ -11,4 +11,8 @@ public interface AuthDao {
      List<Auth> listAuths();
     //---------添加单个权限------------
      int saveAuth(Auth auth);
+    /**
+     * 根据roleId获取所有权限
+     */
+    List<Auth> findAuthListByRoleId(int roleId);
 }
