@@ -16,6 +16,7 @@ public class User {
     private String empName; //用户名
     private String password;  //密码
     private String position;  //职位
+    private int roleId;  //职位
     private List<Role> roles = new ArrayList<Role>(0); //角色列表
     private List<Property> authList = new ArrayList<Property>(0);  //权限列表
     //-------添加Property，是权限类Auth的简化形式-------------------
@@ -82,6 +83,14 @@ public class User {
     }
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     @Override

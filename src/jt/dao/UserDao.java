@@ -24,11 +24,14 @@ public interface UserDao {
     //--------获取员工没有指定的角色-------------
      List<Role> findNotAssignedRoles(int userId);
     //--------给员工指定角色-------------------
-     void assignRoleForEmp(User user);
-     //根据userId查询当前用户所有的权限并去重
+     int updateAssignRoleForUser(User user);
+    int addAssignRoleForUser(User user);
+
+    //根据userId查询当前用户所有的权限并去重
     List<Auth> findAllAuthByUserId(int userId);
     //根据ID 查询用户的角色
     Role selectRoleById(int id);
+    int selectUserById(int id);
 
 
 }

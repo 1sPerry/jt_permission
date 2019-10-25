@@ -50,6 +50,8 @@ public class SecureFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
+        req.setCharacterEncoding("UTF-8");//传值编码
+        resp.setContentType("text/html;charset=UTF-8");//设置传输编码
         String path = req.getRequestURI(); // 获取请求路径
         String action = req.getParameter("action");
         // 如果回话中的用户为空,页面重新定向到登陆页面

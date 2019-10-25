@@ -61,6 +61,8 @@ public class UserServlet extends HttpServlet {
            addAuth(request, response);
        }else if (action.equals("delAuth")) {
            delAuth(request, response);
+       }else if (action.equals("assignRoleAdd")){
+           assignRoleAdd(request, response);
        }
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -131,13 +133,40 @@ public class UserServlet extends HttpServlet {
         UserDaoImpl userDao=new UserDaoImpl();
         Role role = userDao.selectRoleById(userId);
         //注销用户后，请求用户列表接口
+        req.setAttribute("userId", userId);
         req.setAttribute("empName", empName);
-        req.setAttribute("roleInfo", role);
+        req.setAttribute("roleNameInfo", role.getRoleName());
         List<Role> roles = new ArrayList<>();
         RoleDaoImpl roleDao = new RoleDaoImpl();
         roles = roleDao.listRoles();
         req.setAttribute("roles", roles);//这里遍历list 跟上面 roleInfo比  就下拉框 遍历 然后选中 zhe ji  ge
         req.getRequestDispatcher(ASSIGNROLE).forward(req, resp);
+    }
+    /**
+     * 添加用户角色
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void assignRoleAdd(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        int roleId = Integer.parseInt(req.getParameter("sel"));
+        int userId = Integer.parseInt(req.getParameter("userId"));
+        User user = new User();
+        user.setId(userId);
+        user.setRoleId(roleId);
+        /**
+         * 先查询关联表中userID是否为空，若不为空 update 若为空，insert
+         */
+        UserDaoImpl userDao = new UserDaoImpl();
+       int isNull = userDao.selectUserById(userId);
+       if (0 ==isNull){
+           userDao.updateAssignRoleForUser(user);
+       }else {
+           int rows= userDao.addAssignRoleForUser(user);
+       }
+        userList(req,resp);
     }
     /**
      * 从数据库中查询所有的角色
@@ -177,17 +206,18 @@ public class UserServlet extends HttpServlet {
      */
     public void addRole(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");//传值编码
+        resp.setContentType("text/html;charset=UTF-8");//设置传输编码
         String roleName = req.getParameter("roleName");
-
         Role role = new Role();
         role.setRoleName(roleName);
-       RoleDaoImpl roleDao = new RoleDaoImpl();
+        RoleDaoImpl roleDao = new RoleDaoImpl();
         int rows= roleDao.saveRole(role);
         //注销用户后，请求用户列表接口
         roleList(req,resp);
     }
     /**
-     * 给用户分配角色
+     * 给用角色分配权限
      * @param req
      * @param resp
      * @throws ServletException

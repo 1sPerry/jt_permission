@@ -162,8 +162,34 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void assignRoleForEmp(User user) {
+    public int addAssignRoleForUser(User user) {
+        Connection conn = DBUtil.getConnection();
+        String sql ="insert into sys_user_role (userId,roleId) values ('" + user.getId() + "','" + user.getRoleId() + "')";
+        PreparedStatement pst = null;
+        int rows = 0;
+        try {
+            pst = conn.prepareStatement(sql);
+            rows = pst.executeUpdate();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rows;
+    }
+    @Override
+    public int updateAssignRoleForUser(User user) {
+        Connection conn = DBUtil.getConnection();
+    String sql= "update sys_user_role  set roleId=" + user.getRoleId() + " where userId=" + user.getId() ;
+        PreparedStatement pst = null;
+        int rows = 0;
+        try {
+            pst = conn.prepareStatement(sql);
+            rows = pst.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rows;
     }
 
     @Override
@@ -227,6 +253,23 @@ public class UserDaoImpl implements UserDao {
         }
         return role;
     }
-
+    @Override
+    public int selectUserById(int id) {
+        Connection conn = DBUtil.getConnection();
+        String sql = "SELECT * FROM sys_user_role  WHERE userId =" + id;
+        PreparedStatement pst = null;
+        ResultSet resultSet = null;
+        int rows=0;
+        try {
+            pst = conn.prepareStatement(sql);
+            resultSet = pst.executeQuery();
+            if (!resultSet.next()) {
+                rows =1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rows;
+    }
 
 }
