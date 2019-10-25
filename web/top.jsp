@@ -24,6 +24,7 @@
             <a align="center" href="/jt/userServlet?action=userList"> 用户管理 </a>
              <a align="center" href="/jt/userServlet?action=roleList"> 角色管理 </a>
              <a align="center" href="/jt/userServlet?action=authList"> 权限管理 </a>
+              <a align="center" href="/jt/loginServlet?action=logout"> 注销登录 </a>
          </tr>
 
 <%--        --%>

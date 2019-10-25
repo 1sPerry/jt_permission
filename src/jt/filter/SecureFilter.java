@@ -66,8 +66,8 @@ public class SecureFilter implements Filter {
                 } else {
                     ctx = config.getServletContext();
                     // 如果用sendRedirect还会进行过滤，所以不用
+                    req.setAttribute("msg", "请先登录系统！");
                     ctx.getRequestDispatcher(LOGIN).forward(req, resp);
-                    return;// 到这里时候已经出错了，不用再往下传递请求了。
                 }
             }
         } else {// 如果用户已经登录，在判断他是否有访问某一资源的权限
@@ -76,7 +76,7 @@ public class SecureFilter implements Filter {
                 HttpSession session = req.getSession();
                 User user = (User) session.getAttribute("user");// 是在Servlet中放入的User对象，必须从session中获取user对象
                 //如果是login请求，则不进行过滤
-                if ("login".equals(action)) {
+                if ("login".equals(action) || "logout".equals(action)) {
                     filterChain.doFilter(servletRequest, servletResponse);
                 } else {
                     // 进行权限检查

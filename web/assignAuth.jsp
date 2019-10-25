@@ -15,7 +15,7 @@
 <form name="form2" method="post" action="/jt/userServlet?action=assignAuthAdd">
     <table align="center">
         <tr>
-            <td><label>角色名称：</label></td>
+            <td><label>权限名称：</label></td>
  <td>${empName}</td>
 
             <td>

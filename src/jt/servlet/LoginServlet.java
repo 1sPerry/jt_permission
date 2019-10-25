@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
         if (action.equals("login")) {
             login(request, response);
         } else if (action.equals("logout")) {
-//            logout(request, response);
+            logout(request, response);
         }
     }
 
@@ -62,5 +62,13 @@ public class LoginServlet extends HttpServlet {
             req.getRequestDispatcher(LOGIN).forward(req, resp);
         }
     }
-
+    //---------注销模块，退出后转到login.jsp--------------------------------
+    public void logout(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        req.getRequestDispatcher(LOGIN).forward(req, resp);
+    }
 }
