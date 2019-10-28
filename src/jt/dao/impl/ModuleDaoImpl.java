@@ -43,6 +43,8 @@ public class ModuleDaoImpl implements ModuleDao {
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         return list;
     }

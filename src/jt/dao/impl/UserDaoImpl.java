@@ -39,6 +39,8 @@ public class UserDaoImpl implements UserDao {
             System.out.println("row = " + row);
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return row;
     }
@@ -61,6 +63,8 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         return user;
     }
@@ -79,6 +83,8 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         return row;
     }
@@ -95,6 +101,8 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }
@@ -129,6 +137,8 @@ public class UserDaoImpl implements UserDao {
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         return list;
     }
@@ -145,6 +155,8 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }
@@ -176,6 +188,8 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }
@@ -192,6 +206,8 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }
@@ -228,6 +244,8 @@ public class UserDaoImpl implements UserDao {
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         authList = auths.stream()
                 .filter(JtUtils.distinctByKey(Auth::getId))
@@ -254,6 +272,8 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         return role;
     }
@@ -273,8 +293,35 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         return rows;
+    }
+
+    @Override
+    public List<String> selectBtnName(int userId) {
+        Connection conn = DBUtil.getConnection();
+        List<String> list = new ArrayList<>();
+        String sql = "SELECT  sb.btnName" +
+                " FROM sys_btn sb" +
+                " LEFT JOIN sys_btn_role  sbr ON sbr.btnId = sb.id" +
+                " WHERE sbr.roleId IN( SELECT roleId FROM  sys_user_role  WHERE userId='"+userId+"' ) AND sb.d_flag =1  ";
+        PreparedStatement pst = null;
+        ResultSet resultSet = null;
+        try {
+            pst = conn.prepareStatement(sql);
+            resultSet = pst.executeQuery();
+            while (resultSet.next()) {
+                list.add(resultSet.getString(1));
+            }
+            pst.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
+        }
+        return list;
     }
 
 }

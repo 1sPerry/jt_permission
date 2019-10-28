@@ -69,8 +69,7 @@ public class DBUtil {
      * 就是将其归还给连接池，该连接的
      * 状态会变成空闲，可以继续复用。
      */
-    public static void close(
-            Connection con, Statement smt) {
+    public static void close( Connection con, Statement smt) {
         try {
             if (smt != null) {
                 smt.close();

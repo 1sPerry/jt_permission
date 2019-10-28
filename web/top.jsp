@@ -26,11 +26,6 @@
              <a align="center" href="/jt/userServlet?action=authList"> 权限管理 </a>
               <a align="center" href="/jt/loginServlet?action=logout"> 注销登录 </a>
          </tr>
-
-<%--        --%>
-<%-- <a href="/jt/loginServlet?action=list">--%>
-<%--   <img align="absmiddle"/>员工管理--%>
-<%-- </a>--%>
 </span></div>
 </body>
 </html>

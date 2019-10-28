@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
-
+<%@taglib prefix="btn" uri="http://test.com" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,16 +26,21 @@
             <td id="empName">${user.empName}</td>
             <td id="position">${user.position}</td>
             <td id="edit">
-                <a href="/jt/userServlet?userId=${user.id}&action=del">删除</a>|
+                <btn:btnPermission name="delUserBtn">
+                    <a href="/jt/userServlet?userId=${user.id}&action=del">删除</a>|
+                </btn:btnPermission>
+                <btn:btnPermission name="assignRoleBtn">
                 <a href="/jt/userServlet?userId=${user.id}&empName=${user.empName}&action=assignRole">分配角色</a>
+                </btn:btnPermission>
             </td>
         </tr>
     </c:forEach>
     <tr>
-        <td colspan="4" align="left"><a href="/addUser.jsp">>>添加用户</a></td>
+        <btn:btnPermission name="addUserBtn" >
+            <td colspan="4" align="left"><a href="/addUser.jsp">>>添加用户</a></td>
+        </btn:btnPermission>
     </tr>
 </table>
-
 </body>
 </html>
 

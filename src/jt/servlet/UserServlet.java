@@ -142,7 +142,7 @@ public class UserServlet extends HttpServlet {
         List<Role> roles = new ArrayList<>();
         RoleDaoImpl roleDao = new RoleDaoImpl();
         roles = roleDao.listRoles();
-        req.setAttribute("roles", roles);//这里遍历list 跟上面 roleInfo比  就下拉框 遍历 然后选中 zhe ji  ge
+        req.setAttribute("roles", roles);
         req.getRequestDispatcher(ASSIGNROLE).forward(req, resp);
     }
 

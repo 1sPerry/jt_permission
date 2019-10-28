@@ -14,13 +14,11 @@ import java.util.List;
 
 @WebServlet("/jt/loginServlet")
 public class LoginServlet extends HttpServlet {
-    private String empName;
     private static String SUCCESS = "/top.jsp";
     private static String LOGIN = "/login.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        super.doGet(req, resp);
         doPost(request, response);
     }
 
@@ -50,16 +48,8 @@ public class LoginServlet extends HttpServlet {
         String empName = req.getParameter("empName");
         String password = req.getParameter("password");
         UserDaoImpl userDao = new UserDaoImpl();
-        User userInfo = userDao.loginUser(empName, password);
-        boolean isLogin = false;
-        List<User> list = userDao.listUsers();
-        for (int i = 0; i < list.size(); i++) {
-            User u = (User) list.get(i);
-            if (u.getEmpName().equals(userInfo.getEmpName()) && u.getPassword().equals(userInfo.getPassword())) {
-                isLogin = true;
-            }
-        }
-        if (isLogin) {// 如果不为空，说明登录成功
+        User userInfo  = userDao.loginUser(empName, password);
+        if (null !=userInfo){
             HttpSession session = req.getSession();
             session.setAttribute("user", userInfo);
             req.getRequestDispatcher(SUCCESS).forward(req, resp);

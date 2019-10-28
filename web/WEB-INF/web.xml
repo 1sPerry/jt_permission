@@ -33,5 +33,10 @@
 <!--        <filter-name>secureFilter</filter-name>-->
 <!--        <url-pattern>/success.jsp</url-pattern>-->
 <!--    </filter-mapping>-->
-
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://test.com</taglib-uri>
+            <taglib-location>/button.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 </web-app>

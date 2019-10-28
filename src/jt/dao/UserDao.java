@@ -105,5 +105,10 @@ public interface UserDao {
      */
     int selectUserById(int id);
 
-
+    /**
+     * 根据用户ID查询权限按钮集合
+     * @param userId
+     * @return
+     */
+    List<String> selectBtnName(int userId);
 }

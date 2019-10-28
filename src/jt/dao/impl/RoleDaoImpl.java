@@ -35,6 +35,8 @@ public class RoleDaoImpl implements RoleDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }
@@ -58,6 +60,8 @@ public class RoleDaoImpl implements RoleDao {
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         return roles;
     }
@@ -74,6 +78,8 @@ public class RoleDaoImpl implements RoleDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }

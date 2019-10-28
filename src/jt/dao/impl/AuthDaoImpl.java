@@ -30,6 +30,8 @@ public class AuthDaoImpl implements AuthDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }
@@ -55,6 +57,8 @@ public class AuthDaoImpl implements AuthDao {
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         return auths;
     }
@@ -71,6 +75,8 @@ public class AuthDaoImpl implements AuthDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }
@@ -97,6 +103,8 @@ public class AuthDaoImpl implements AuthDao {
             pst.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst,resultSet);
         }
         return auths;
     }
@@ -113,6 +121,8 @@ public class AuthDaoImpl implements AuthDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }
@@ -129,6 +139,8 @@ public class AuthDaoImpl implements AuthDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            DBUtil.close(conn,pst);
         }
         return rows;
     }
