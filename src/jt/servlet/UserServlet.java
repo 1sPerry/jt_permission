@@ -1,9 +1,11 @@
 package jt.servlet;
 
 import jt.dao.impl.AuthDaoImpl;
+import jt.dao.impl.BtnDaoImpl;
 import jt.dao.impl.RoleDaoImpl;
 import jt.dao.impl.UserDaoImpl;
 import jt.entity.Auth;
+import jt.entity.Btn;
 import jt.entity.Role;
 import jt.entity.User;
 
@@ -24,6 +26,7 @@ public class UserServlet extends HttpServlet {
     private static String ASSIGNROLE = "/assignRole.jsp";
     private static String ASSIGNAUTH = "/assignAuth.jsp";
     private static String AUTH_LIST = "/authList.jsp";
+    private static String ASSIGN_BTN = "/assignBtn.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -60,6 +63,10 @@ public class UserServlet extends HttpServlet {
             assignRoleAdd(request, response);
         } else if (action.equals("assignAuthAdd")) {
             assignAuthAdd(request, response);
+        } else if (action.equals("assignBtn")) {
+            assignBtn(request, response);
+        } else if (action.equals("assignBtnAdd")) {
+            assignBtnAdd(request, response);
         }
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
@@ -322,5 +329,48 @@ public class UserServlet extends HttpServlet {
         AuthDaoImpl authDao = new AuthDaoImpl();
         int rows = authDao.delAuth(authId);
         authList(req, resp);
+    }
+
+    /**
+     * 添加按钮
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void assignBtn(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        int roleId = Integer.parseInt(req.getParameter("roleId"));
+        req.setAttribute("roleId", roleId);
+        BtnDaoImpl btnDao = new BtnDaoImpl();
+        List<Btn> btnList = btnDao.selectBtnByRoleId(roleId);
+        req.setAttribute("btnList", btnList);
+        List<Btn> btns = btnDao.selectBtns();
+        req.setAttribute("btns", btns);
+        req.getRequestDispatcher(ASSIGN_BTN).forward(req, resp);
+        authList(req, resp);
+    }
+
+    /**
+     * 添加按钮权限确认
+     *
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void assignBtnAdd(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String[] btnIds = req.getParameterValues("btnIds");
+        int roleId = Integer.parseInt(req.getParameter("roleId"));
+        BtnDaoImpl btnDao = new BtnDaoImpl();
+        btnDao.deleteByRole(roleId);
+        //先删除角色权限表中当前角色关联权限，再进行新增
+        for (int i = 0; i < btnIds.length; i++) {
+            int btnId = Integer.parseInt(btnIds[i]);
+            btnDao.saveRoleAuth(roleId, btnId);
+        }
+        roleList(req, resp);
     }
 }

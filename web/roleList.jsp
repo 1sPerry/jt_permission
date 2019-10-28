@@ -26,6 +26,7 @@
             <td id="edit">
                 <a href="/jt/userServlet?roleId=${role.id}&action=delRole">删除</a>|
                 <a href="/jt/userServlet?roleId=${role.id}&roleName=${role.roleName}&action=assignAuth">分配权限</a>
+                <a href="/jt/userServlet?roleId=${role.id}&roleName=${role.roleName}&action=assignBtn">分配按钮权限</a>
             </td>
         </tr>
     </c:forEach>
