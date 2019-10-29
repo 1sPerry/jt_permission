@@ -9,7 +9,7 @@ public interface BtnDao {
 
     List<Btn> selectBtnByRoleId(int roleId);
 
-   int saveRoleAuth(int roleId, int btnId);
+    int saveRoleAuth(int roleId, int btnId);
 
     int deleteByRole(int roleId);
 }
